@@ -8,18 +8,45 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var cardCount: Int = 0
+    let emojis = ["👻","👿","👽","🤖","🎃","👾","😼"]
+    
     var body: some View {
-        
+        Group {
+            ScrollView {
+                cards
+            }
+            Spacer()
+            cardCounterAdjuster
+        }
+    }
+    
+    var cardCounterAdjuster: some View {
         HStack {
-            let emojis = ["👻","👿","👽","🤖","🤖"]
-            
-            ForEach(emojis.indices,id:\.self) { index in
-                CardView(content: emojis[index], isFaceUp: true)
+            cardCounterAdjustButton(by: +1, systemImage: "rectangle.stack.badge.plus.fill")
+            Spacer()
+            cardCounterAdjustButton(by: -1, systemImage: "rectangle.stack.badge.minus.fill")
+        }.padding()
+            .font(.largeTitle)
+            .imageScale(.large)
+        
+    }
+    var cards: some View {
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))]) {
+            ForEach(0..<cardCount,id:\.self) { index in
+                CardView(content: emojis[index], isFaceUp: true).aspectRatio(2/3,contentMode: .fit)
             }
             
         }
-        .padding()
         .foregroundStyle(.orange)
+        .padding()
+    }
+    func cardCounterAdjustButton(by offset: Int,systemImage: String) -> some View {
+        Button(action: {
+            cardCount = cardCount + offset
+        }, label: {
+            Image(systemName: systemImage)
+        }).disabled(cardCount + offset > emojis.count || cardCount + offset < 0)
     }
 }
 
@@ -30,21 +57,18 @@ struct CardView: View {
     var body: some View {
         let base = RoundedRectangle(cornerRadius: 12)
         
-        Group {
-            if isFaceUp {
-                ZStack {
-                        base.foregroundStyle(.white)
-                    
-                        base.strokeBorder(lineWidth: 6)
-                    Text(content).font(.largeTitle)
-                }
-            }
-            else {
-                base
-            }
-        }.onTapGesture {
+        ZStack {
+            Group {
+                base.foregroundStyle(.white)
+                base.strokeBorder(lineWidth: 6)
+                Text(content).font(.largeTitle)
+            }.opacity(isFaceUp ? 1 : 0)
+            base.opacity(isFaceUp ? 0 : 1)
+        }
+        .onTapGesture {
             isFaceUp.toggle()
         }
+        
     } }
 
 
