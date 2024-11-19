@@ -19,8 +19,10 @@ struct EmojiMemoryGameView: View {
             }
             HStack {
                 Button("New Game") {
-                    viewModel.shuffle()
+                    viewModel.createNewGame()
                 }
+                Spacer()
+                score
                 Spacer()
                 Button("Shuffle") {
                     viewModel.shuffle()
@@ -35,8 +37,12 @@ struct EmojiMemoryGameView: View {
     var title: some View {
         VStack {
             Text("Memorize!").font(.largeTitle)
-            Text("Theme")
+            Text(viewModel.themeName)
         }
+    }
+    
+    var score: some View {
+        Text("Score: 0")
     }
     
     var cards: some View {
@@ -50,7 +56,7 @@ struct EmojiMemoryGameView: View {
                     }
             }
         }
-        .foregroundStyle(.orange)
+        .foregroundStyle(viewModel.cardColor)
         .padding()
     }
 }
