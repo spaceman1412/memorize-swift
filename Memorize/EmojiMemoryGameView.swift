@@ -42,7 +42,7 @@ struct EmojiMemoryGameView: View {
     }
     
     var score: some View {
-        Text("Score: 0")
+        Text("Score: \(viewModel.score)")
     }
     
     var cards: some View {

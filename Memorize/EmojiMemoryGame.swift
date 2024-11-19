@@ -41,6 +41,10 @@ class EmojiMemoryGame: ObservableObject {
         return game.cards
     }
     
+    var score: Int {
+        return game.score
+    }
+    
     struct Theme {
         let name: String
         let emojis: [String]
