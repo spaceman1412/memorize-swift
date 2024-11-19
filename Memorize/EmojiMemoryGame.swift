@@ -11,19 +11,19 @@ class EmojiMemoryGame: ObservableObject {
     private static let emojis = ["🎃", "👻", "🕷️", "💀", "🧙‍♀️", "🦇", "🐶", "🐱", "🐰", "🐼"]
     
     private static let themes: [Theme] = [
-        Theme(name: "Rainbow", emojis: ["🌈", "☀️", "🌧", "🌩", "❄️"], numberOfPairs: 5, color: "Purple"),
-        Theme(name: "Fire", emojis: ["🔥", "🌋", "☄️", "💥", "🕯"], numberOfPairs: 5, color: "Red"),
-        Theme(name: "Ocean", emojis: ["🌊", "🐚", "🐠", "🐳", "🦀"], numberOfPairs: 5, color: "Blue"),
-        Theme(name: "Night Sky", emojis: ["🌟", "🌙", "✨", "🌌", "🪐"], numberOfPairs: 5, color: "Yellow"),
-        Theme(name: "Nature", emojis: ["🍀", "🌿", "🌳", "🍂", "🌻"], numberOfPairs: 5, color: "Green"),
-        Theme(name: "Art", emojis: ["🎨", "🖌", "🖼", "🎭", "✏️"], numberOfPairs: 5, color: "Pink")
+        Theme(name: "Rainbow", emojis: ["🌈", "☀️", "🌧", "🌩", "❄️"], numberOfPairs: Int.random(in: 0..<10), color: "Multiple"),
+        Theme(name: "Fire", emojis: ["🔥", "🌋", "☄️", "💥", "🕯"], numberOfPairs: Int.random(in: 0..<10), color: "Red"),
+        Theme(name: "Ocean", emojis: ["🌊", "🐚", "🐠", "🐳", "🦀"], numberOfPairs: Int.random(in: 0..<10), color: "Blue"),
+        Theme(name: "Night Sky", emojis: ["🌟", "🌙", "✨", "🌌", "🪐"], numberOfPairs: Int.random(in: 0..<10), color: "Yellow"),
+        Theme(name: "Nature", emojis: ["🍀", "🌿", "🌳", "🍂", "🌻"], numberOfPairs: Int.random(in: 0..<10), color: "Green"),
+        Theme(name: "Art", emojis: ["🎨", "🖌", "🖼", "🎭", "✏️"], numberOfPairs: Int.random(in: 0..<10), color: "Pink")
     ]
     
     private(set) var themeName: String
     
-    private static let colorData: [String:Color] = ["Purple": .purple, "Red": .red, "Blue": .blue, "Yellow": .yellow, "Green": .green, "Pink": .pink]
+    private static let colorData: [String:any ShapeStyle] = ["Multiple": Gradient(colors: [.red,.green,.blue]), "Red": .red, "Blue": .blue, "Yellow": .yellow, "Green": .green, "Pink": .pink]
     
-    private(set) var cardColor: Color
+    private(set) var cardColor: any ShapeStyle
     
     private static func createMemoryGame(withTheme theme: Theme) -> MemoryGame<String> {
         return MemoryGame(numberOfPairs: theme.numberOfPairs) { pairIndex in
