@@ -17,9 +17,15 @@ struct EmojiMemoryGameView: View {
                 cards
                     .animation(.default, value: viewModel.cards)
             }
-            Button("Shuffle") {
-                viewModel.shuffle()
-            }
+            HStack {
+                Button("New Game") {
+                    viewModel.shuffle()
+                }
+                Spacer()
+                Button("Shuffle") {
+                    viewModel.shuffle()
+                }
+            }.padding(30)
         }
         Spacer()
     }
@@ -27,7 +33,10 @@ struct EmojiMemoryGameView: View {
     
     
     var title: some View {
-        Text("Memorize!").font(.largeTitle)
+        VStack {
+            Text("Memorize!").font(.largeTitle)
+            Text("Theme")
+        }
     }
     
     var cards: some View {

@@ -64,6 +64,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         }
         
     }
+    
 }
 
 extension Array {
