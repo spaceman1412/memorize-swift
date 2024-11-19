@@ -19,11 +19,11 @@ class EmojiMemoryGame: ObservableObject {
         Theme(name: "Art", emojis: ["🎨", "🖌", "🖼", "🎭", "✏️"], numberOfPairs: 5, color: "Pink")
     ]
     
-    var themeName: String
+    private(set) var themeName: String
     
     private static let colorData: [String:Color] = ["Purple": .purple, "Red": .red, "Blue": .blue, "Yellow": .yellow, "Green": .green, "Pink": .pink]
     
-    var cardColor: Color
+    private(set) var cardColor: Color
     
     private static func createMemoryGame(withTheme theme: Theme) -> MemoryGame<String> {
         return MemoryGame(numberOfPairs: theme.numberOfPairs) { pairIndex in
