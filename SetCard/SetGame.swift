@@ -8,12 +8,21 @@
 import Foundation
 
 
-struct SetGame<CardContent> {
+struct SetGame<CardContent: Equatable> {
     var cards: [Card]
     
-    struct Card {
+    struct Card: Equatable {
         var content: CardContent
-        var isSelected: Bool
-        var isMatched: Bool
+        var isSelected: Bool = false
+        var isMatched: Bool = false
+    }
+    
+    
+    init(numberOfCards: Int, randomCardContentFactory: () -> CardContent) {
+        cards = []
+        for _ in 0..<numberOfCards {
+            let card = Card(content: randomCardContentFactory())
+            cards.append(card)
+        }
     }
 }

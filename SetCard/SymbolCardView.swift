@@ -8,90 +8,78 @@
 import SwiftUI
 
 struct SymbolCardView: View {
-    var color: Color
-    var symbol: Symbol
-    var typeColor: ColorType
-    var numberSymbol: SymbolNumber
+    typealias SymbolSet = SymbolSetGame.Symbol
     
-    enum Symbol {
-        case diamond
-        case oval
-        case squiggle
-    }
-    
-    enum ColorType {
-        case fill
-        case stroke
-        case stripped
-    }
-    
-    enum SymbolNumber: Int {
-        case one = 1
-        case two = 2
-        case three = 3
-    }
+    var symbolSet: SymbolSet
     
     var body: some View {
         HStack {
-            ForEach(0..<numberSymbol.rawValue, id: \.self) { _ in
-                switch symbol {
+            ForEach(0..<symbolSet.numberSymbol.rawValue, id: \.self) { _ in
+                switch symbolSet.symbol {
                 case .diamond:
-                    diamond
+                    diamond.padding(Constants.padding)
                 case .oval:
-                    oval
+                    oval.padding(Constants.padding)
                 case .squiggle:
-                    squiggle
+                    squiggle.padding(Constants.padding)
                 }
             }
         }
     }
-    
+
     var oval: some View {
-        switch typeColor {
+        switch symbolSet.typeColor {
         case .fill:
-            AnyView(RoundedRectangle(cornerRadius: Constants.cornerRadius).fill(color)
+            AnyView(RoundedRectangle(cornerRadius: Constants.cornerRadius).fill(symbolSet.color.mainColor)
                 .aspectRatio(Constants.aspectRatio,contentMode: .fit))
         case .stroke:
-            AnyView(RoundedRectangle(cornerRadius: Constants.cornerRadius).stroke(lineWidth: Constants.lineWidth).foregroundStyle(color)
+            AnyView(RoundedRectangle(cornerRadius: Constants.cornerRadius).stroke(lineWidth: Constants.lineWidth).foregroundStyle(symbolSet.color.mainColor)
                 .aspectRatio(Constants.aspectRatio,contentMode: .fit))
         case .stripped:
-            AnyView(RoundedRectangle(cornerRadius: Constants.cornerRadius).fill(color).opacity(Constants.opacity)
+            AnyView(RoundedRectangle(cornerRadius: Constants.cornerRadius).fill(symbolSet.color.mainColor).opacity(Constants.opacity)
                 .aspectRatio(Constants.aspectRatio,contentMode: .fit))
         }
         
     }
     
+    init(symbolSet: SymbolSet) {
+        self.symbolSet = symbolSet
+        
+        print(type(of: symbolSet.color.mainColor))
+    }
+    
     var diamond: some View {
-        switch typeColor {
+        switch symbolSet.typeColor {
         case .fill:
-            AnyView(Diamond().foregroundStyle(color))
+            AnyView(Diamond().foregroundStyle(symbolSet.color.mainColor))
         case .stroke:
-            AnyView(Diamond().stroke(lineWidth: Constants.lineWidth).foregroundStyle(color))
+            AnyView(Diamond().stroke(lineWidth: Constants.lineWidth).foregroundStyle(symbolSet.color.mainColor))
         case .stripped:
-            AnyView(Diamond().foregroundStyle(color).opacity(Constants.opacity))
+            AnyView(Diamond().foregroundStyle(symbolSet.color.mainColor).opacity(Constants.opacity))
         }
         
     }
     var squiggle: some View {
-        switch typeColor {
+        switch symbolSet.typeColor {
         case .fill:
             AnyView(
-                Rectangle().fill(color)
+                Rectangle().fill(symbolSet.color.mainColor)
                     .aspectRatio(Constants.aspectRatio,contentMode: .fit)
             )
         case .stroke:
-            AnyView(Rectangle().stroke(lineWidth: Constants.lineWidth).foregroundStyle(color)
+            AnyView(Rectangle().stroke(lineWidth: Constants.lineWidth).foregroundStyle(symbolSet.color.mainColor)
                 .aspectRatio(Constants.aspectRatio,contentMode: .fit))
         case .stripped:
-            AnyView(Rectangle().fill(color).opacity(Constants.opacity)
+            AnyView(Rectangle().fill(symbolSet.color.mainColor).opacity(Constants.opacity)
                 .aspectRatio(Constants.aspectRatio,contentMode: .fit))
         }
     }
-   
+    
     struct Constants {
         static let lineWidth: CGFloat = 4
         static let aspectRatio: CGFloat = 1.4/3
         static let opacity: CGFloat = 0.2
+        static let padding: CGFloat = 5
         static let cornerRadius: CGFloat = .infinity // Set up largest number for cornerRadius to stay the same with all size
     }
     
@@ -110,5 +98,6 @@ struct SymbolCardView: View {
 }
 
 #Preview {
-    SymbolCardView(color: .green, symbol: .oval, typeColor: .stroke, numberSymbol: .three)
+    SymbolCardView(symbolSet: SymbolSetGame.Symbol(color: SymbolSetGame.Symbol.SymbolColor.allCases.randomElement()!, symbol: .oval, typeColor: .stroke, numberSymbol: .three))
+        .frame(width: 100,height: 100)
 }
