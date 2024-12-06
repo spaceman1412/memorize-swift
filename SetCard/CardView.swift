@@ -29,13 +29,12 @@ struct CardView<Content: View>: View {
     
     var contentView: some View {
         content
-            .scaleEffect(0.8)
     }
 }
 
 #Preview {
     VStack {
-        CardView(content:SymbolCardView(symbolSet: SymbolSetGame.Symbol(color: .green, symbol: .oval, typeColor: .fill, numberSymbol: .three)), color: .black, isSelected: true, isMatched: false)
+        CardView(content:SymbolCardView(symbolSet: SymbolSetGame.Symbol(color: .green, symbol: .oval, typeColor: .stroke, numberSymbol: .three)), color: .black, isSelected: true, isMatched: false)
             .frame(width: 100, height: 100)
         CardView(content:Rectangle(), color: .blue, isSelected: false, isMatched: false)
             .frame(width: 100, height: 100)

@@ -13,20 +13,24 @@ struct SymbolCardView: View {
     var symbolSet: SymbolSet
     
     var body: some View {
-        HStack {
-            ForEach(0..<symbolSet.numberSymbol.rawValue, id: \.self) { _ in
-                switch symbolSet.symbol {
-                case .diamond:
-                    diamond.padding(Constants.padding)
-                case .oval:
-                    oval.padding(Constants.padding)
-                case .squiggle:
-                    squiggle.padding(Constants.padding)
+        GeometryReader { geometry in
+            HStack(alignment: .center) {
+                ForEach(0..<symbolSet.numberSymbol.rawValue, id: \.self) { _ in
+                    switch symbolSet.symbol {
+                    case .diamond:
+                        // Size responsive for the same size with all amount
+                        diamond.frame(width: (geometry.size.width / 3 - 10 * 2))
+                    case .oval:
+                        oval
+                            .frame(width: (geometry.size.width / 3 - 10 * 2))
+                    case .squiggle:
+                        squiggle.frame(width: (geometry.size.width / 3 - 10 * 2))
+                    }
                 }
-            }
+            }.padding(10).frame(maxWidth: .infinity,maxHeight: .infinity)
         }
     }
-
+    
     var oval: some View {
         switch symbolSet.typeColor {
         case .fill:
@@ -34,18 +38,14 @@ struct SymbolCardView: View {
                 .aspectRatio(Constants.aspectRatio,contentMode: .fit))
         case .stroke:
             AnyView(RoundedRectangle(cornerRadius: Constants.cornerRadius).stroke(lineWidth: Constants.lineWidth).foregroundStyle(symbolSet.color.mainColor)
-                .aspectRatio(Constants.aspectRatio,contentMode: .fit))
+                .aspectRatio(Constants.aspectRatio,contentMode: .fit)
+            )
         case .stripped:
             AnyView(RoundedRectangle(cornerRadius: Constants.cornerRadius).fill(symbolSet.color.mainColor).opacity(Constants.opacity)
-                .aspectRatio(Constants.aspectRatio,contentMode: .fit))
+                .aspectRatio(Constants.aspectRatio,contentMode: .fit)
+            )
         }
         
-    }
-    
-    init(symbolSet: SymbolSet) {
-        self.symbolSet = symbolSet
-        
-        print(type(of: symbolSet.color.mainColor))
     }
     
     var diamond: some View {
@@ -99,5 +99,6 @@ struct SymbolCardView: View {
 
 #Preview {
     SymbolCardView(symbolSet: SymbolSetGame.Symbol(color: SymbolSetGame.Symbol.SymbolColor.allCases.randomElement()!, symbol: .oval, typeColor: .stroke, numberSymbol: .three))
-        .frame(width: 100,height: 100)
+        .frame(width: 300,height: 300)
+        .border(.black)
 }

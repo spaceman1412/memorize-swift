@@ -11,7 +11,7 @@ import SwiftUI
 struct SetCardApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SymbolSetGameView()
         }
     }
 }
