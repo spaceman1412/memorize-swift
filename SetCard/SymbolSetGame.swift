@@ -59,13 +59,17 @@ struct SymbolSetGame {
     var game: SetGame = createSetGame()
     
     static func createSetGame() -> SetGame<Symbol> {
-        SetGame(numberOfCards: 4) {
+        SetGame(numberOfCards: 12) {
             Symbol(color: .allCases.randomElement()!, symbol: .allCases.randomElement()!, typeColor: .allCases.randomElement()!, numberSymbol: .allCases.randomElement()!)
         }
     }
     
     var cards: [Card] {
         game.cards
+    }
+    
+    mutating func choose(_ chosenCard: Card) {
+        game.choose(chosenCard)
     }
     
 }

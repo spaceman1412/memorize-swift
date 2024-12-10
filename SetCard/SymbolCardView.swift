@@ -19,15 +19,15 @@ struct SymbolCardView: View {
                     switch symbolSet.symbol {
                     case .diamond:
                         // Size responsive for the same size with all amount
-                        diamond.frame(width: (geometry.size.width / 3 - 10 * 2))
+                        diamond.frame(width: (geometry.size.width - 20 * 2 - 5 * 3) / 3)
                     case .oval:
                         oval
-                            .frame(width: (geometry.size.width / 3 - 10 * 2))
+                            .frame(width: (geometry.size.width - 20 * 2 - 5 * 3) / 3)
                     case .squiggle:
-                        squiggle.frame(width: (geometry.size.width / 3 - 10 * 2))
+                        squiggle.frame(width: (geometry.size.width - 20 * 2 - 5 * 3) / 3)
                     }
                 }
-            }.padding(10).frame(maxWidth: .infinity,maxHeight: .infinity)
+            }.padding(20).frame(maxWidth: .infinity,maxHeight: .infinity)
         }
     }
     
@@ -98,7 +98,7 @@ struct SymbolCardView: View {
 }
 
 #Preview {
-    SymbolCardView(symbolSet: SymbolSetGame.Symbol(color: SymbolSetGame.Symbol.SymbolColor.allCases.randomElement()!, symbol: .oval, typeColor: .stroke, numberSymbol: .three))
+    SymbolCardView(symbolSet: SymbolSetGame.Symbol(color: SymbolSetGame.Symbol.SymbolColor.allCases.randomElement()!, symbol: .diamond, typeColor: .stroke, numberSymbol: .three))
         .frame(width: 300,height: 300)
         .border(.black)
 }

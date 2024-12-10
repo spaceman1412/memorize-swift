@@ -23,7 +23,7 @@ struct CardView<Content: View>: View {
                 .aspectRatio(3/2,contentMode: .fit)
                 .foregroundStyle(color)
                 .overlay(contentView)
-                .opacity(isSelected ? 1 : 0)
+                .opacity(isSelected || isMatched ? 1 : 0)
         }
     }
     

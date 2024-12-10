@@ -8,20 +8,39 @@
 import SwiftUI
 
 struct SymbolSetGameView: View {
-    var symbolSetGame = SymbolSetGame()
+    @State var symbolSetGame = SymbolSetGame()
+    
+    static private let size: CGFloat = 100
     
     var body: some View {
         title
         
-        ForEach(symbolSetGame.cards) {
-            card in
-            CardView(content:SymbolCardView(symbolSet: SymbolSetGame.Symbol(color: .green, symbol: .oval, typeColor: .fill, numberSymbol: .three)), color: .black, isSelected: true, isMatched: false)
-                .frame(width: 100, height: 100)
+        AspectVGrid(symbolSetGame.cards, aspectRatio: 1) { card in
+            
+           let symbolCardView = SymbolCardView(symbolSet: SymbolSetGame.Symbol(color: card.content.color, symbol: card.content.symbol, typeColor: card.content.typeColor, numberSymbol: card.content.numberSymbol))
+            
+            CardView(content: symbolCardView, color: .black, isSelected: card.isSelected, isMatched: card.isMatched).frame(width: SymbolSetGameView.size, height: SymbolSetGameView.size)
+                .onTapGesture {
+                    symbolSetGame.choose(card)
+                }
         }
+        
+        HStack {
+            Button("New Game") {
+                
+            }
+            
+            Spacer()
+            
+            Button("Deal 3 More Cards") {
+                
+            }
+        }.padding()
     }
     
     var title: some View {
         Text("Set Card Game")
+            .font(.largeTitle)
     }
 }
 
