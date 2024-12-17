@@ -27,15 +27,24 @@ struct SymbolSetGameView: View {
         
         HStack {
             Button("New Game") {
-                
+                symbolSetGame.createNewGame()
             }
             
             Spacer()
             
+            score
+            
+            Spacer()
+            
             Button("Deal 3 More Cards") {
-                
+               
             }
+            
         }.padding()
+    }
+    
+    var score: some View {
+        Text("Score: \(symbolSetGame.score)")
     }
     
     var title: some View {

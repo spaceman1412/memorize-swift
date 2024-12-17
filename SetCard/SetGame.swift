@@ -13,11 +13,17 @@ struct SetGame<CardContent: Equatable> {
     
     struct Card: Equatable, Identifiable {
         var content: CardContent
-        var isSelected: Bool = false
+        var isSelected: Bool = false {
+            didSet {
+                if oldValue && !isSelected {
+                    isSeen = true
+                }
+            }
+        }
+        var isSeen: Bool = false
         var isMatched: Bool = false
         var id: String
     }
-    
     
     private let numberOfCards: Int
     
@@ -45,33 +51,66 @@ struct SetGame<CardContent: Equatable> {
         }
     }
     
-    private var selectedCards: [Card] {
-        cards.filter { card in
-            card.isSelected
+    private var indexSelectedCards: [Int]? {
+        get {
+            let indexArr = cards.indices.filter { index in
+                cards[index].isSelected
+            }
+            
+            if indexArr.count <= 2 {
+                return indexArr
+            }
+            
+            return nil
+        }
+        set {
+            cards.indices.forEach { index in
+                if let indexArr = newValue {
+                    if !indexArr.contains(index) {
+                        cards[index].isSelected = false
+                    }
+                }
+            }
         }
     }
     
-    mutating func choose(_ chosenCard:Card) {
+    mutating func choose(_ chosenCard:Card, compare: (CardContent, CardContent, CardContent) -> Bool) {
         if let index = cards.firstIndex(where: {
             $0.id == chosenCard.id
         }) {
             if cards[index].isSelected {
+                // Deselect card
                 cards[index].isSelected = false
             } else {
-//                let currentMatched = { () -> Bool in
-//                     Check if the current card is match with the other 2 or not
-//                    for content in cards[index].content {
-//                        var count = 0
-//                        
-//                        for card in selectedCards {
-//                            for selectedCardContent in card.content {
-//                                if selectedCardContent == content {
-//                                    
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
+                if let indexArr = indexSelectedCards, indexArr.count == 2 {
+                    if compare(cards[indexArr[0]].content, cards[indexArr[1]].content, cards[index].content)  {
+                        cards[indexArr[0]].isMatched = true
+                        cards[indexArr[1]].isMatched = true
+                        cards[index].isMatched = true
+                        score += 2
+                    } else {
+                        if cards[index].isSeen {
+                            score -= 1
+                        }
+                        if cards[indexArr[0]].isSeen {
+                            score -= 1
+                        }
+                        if cards[indexArr[1]].isSeen {
+                            score -= 1
+                        }
+                        
+                        indexSelectedCards = [index]
+                    }
+                } else {
+                    if var indexArrr = indexSelectedCards {
+                        var copArr = indexArrr
+                        copArr.append(index)
+                        indexSelectedCards = copArr
+                    } else {
+                        indexSelectedCards = [index]
+                    }
+                }
+                cards[index].isSelected = true
             }
         }
         
@@ -86,3 +125,5 @@ struct SetGame<CardContent: Equatable> {
     }
     
 }
+
+

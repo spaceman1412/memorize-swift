@@ -17,14 +17,14 @@ struct CardView<Content: View>: View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
                 .aspectRatio(3/2, contentMode: .fit)
-                .opacity(isSelected ? 0 : 1)
+                .opacity(isSelected || isMatched ? 0 : 1)
             RoundedRectangle(cornerRadius: 10)
                 .strokeBorder(style: StrokeStyle(lineWidth: 1))
                 .aspectRatio(3/2,contentMode: .fit)
                 .foregroundStyle(color)
                 .overlay(contentView)
                 .opacity(isSelected || isMatched ? 1 : 0)
-        }
+        }.opacity(isMatched ? 0 : 1)
     }
     
     var contentView: some View {
