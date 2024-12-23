@@ -21,7 +21,7 @@ struct SymbolSetGameView: View {
             
             let symbolCardView = SymbolCardView(symbolSet: SymbolSetGame.Symbol(color: card.content.color, symbol: card.content.symbol, typeColor: card.content.typeColor, numberSymbol: card.content.numberSymbol))
             
-            CardView(content:SymbolCardView(symbolSet: SymbolSetGame.Symbol(color: .green, symbol: .oval, typeColor: .stroke, numberSymbol: .three)), color: .black, isSelected: card.isSelected, isMatched: card.isMatched)
+            CardView(content:symbolCardView, color: .black, isSelected: card.isSelected, isMatched: card.isMatched)
                 .padding(spacing)
                 .onTapGesture {
                     symbolSetGame.choose(card)

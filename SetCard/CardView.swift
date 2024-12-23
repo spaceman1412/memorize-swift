@@ -27,7 +27,7 @@ struct CardView<Content: View>: View {
     }
     
     var contentView: some View {
-        content.border(.blue, width: 1)
+        content
     }
 }
 
