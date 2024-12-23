@@ -13,21 +13,19 @@ struct SymbolCardView: View {
     var symbolSet: SymbolSet
     
     var body: some View {
-        GeometryReader { geometry in
-            HStack(alignment: .center) {
-                ForEach(0..<symbolSet.numberSymbol.rawValue, id: \.self) { _ in
-                    switch symbolSet.symbol {
-                    case .diamond:
-                        // Size responsive for the same size with all amount
-                        diamond.aspectRatio(1/3,contentMode: .fit)
-                    case .oval:
-                        oval
-                    case .squiggle:
-                        squiggle
-                    }
+        HStack(alignment: .center) {
+            ForEach(0..<symbolSet.numberSymbol.rawValue, id: \.self) { _ in
+                switch symbolSet.symbol {
+                case .diamond:
+                    // Size responsive for the same size with all amount
+                    diamond.aspectRatio(1/3,contentMode: .fit)
+                case .oval:
+                    oval
+                case .squiggle:
+                    squiggle
                 }
-            }.padding(10).frame(maxWidth: .infinity,maxHeight: .infinity)
-        }
+            }
+        }.padding(10).frame(maxWidth: .infinity,maxHeight: .infinity)
     }
     
     var oval: some View {
