@@ -27,7 +27,7 @@ struct SymbolCardView: View {
                         squiggle.frame(width: (geometry.size.width - 20 * 2 - 5 * 3) / 3)
                     }
                 }
-            }.padding(20).frame(maxWidth: .infinity,maxHeight: .infinity)
+            }.frame(maxWidth: .infinity,maxHeight: .infinity)
         }
     }
     
@@ -45,7 +45,6 @@ struct SymbolCardView: View {
                 .aspectRatio(Constants.aspectRatio,contentMode: .fit)
             )
         }
-        
     }
     
     var diamond: some View {
@@ -57,7 +56,6 @@ struct SymbolCardView: View {
         case .stripped:
             AnyView(Diamond().foregroundStyle(symbolSet.color.mainColor).opacity(Constants.opacity))
         }
-        
     }
     var squiggle: some View {
         switch symbolSet.typeColor {
@@ -91,7 +89,6 @@ struct SymbolCardView: View {
             path.addLine(to: CGPoint(x: rect.maxX, y: rect.midY))
             path.addLine(to: CGPoint(x: rect.midX, y: rect.maxY))
             path.addLine(to: CGPoint(x: rect.minX, y: rect.midY))
-            
             return path
         }
     }
@@ -99,6 +96,7 @@ struct SymbolCardView: View {
 
 #Preview {
     SymbolCardView(symbolSet: SymbolSetGame.Symbol(color: SymbolSetGame.Symbol.SymbolColor.allCases.randomElement()!, symbol: .diamond, typeColor: .stroke, numberSymbol: .three))
-        .frame(width: 300,height: 300)
         .border(.black)
+        .aspectRatio(3/2,contentMode: .fit)
+        .frame(width: 100)
 }

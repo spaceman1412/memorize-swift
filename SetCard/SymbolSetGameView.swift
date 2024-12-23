@@ -8,18 +8,21 @@
 import SwiftUI
 
 struct SymbolSetGameView: View {
-    @State var symbolSetGame = SymbolSetGame()
+    @ObservedObject var symbolSetGame: SymbolSetGame
     
-    static private let size: CGFloat = 100
+    private let size: CGFloat = 100
+    private let aspectRatio: CGFloat = 3/2
+    private let spacing: CGFloat = 4
     
     var body: some View {
         title
         
-        AspectVGrid(symbolSetGame.cards, aspectRatio: 1) { card in
+        AspectVGrid(symbolSetGame.cards, aspectRatio: aspectRatio) { card in
             
-           let symbolCardView = SymbolCardView(symbolSet: SymbolSetGame.Symbol(color: card.content.color, symbol: card.content.symbol, typeColor: card.content.typeColor, numberSymbol: card.content.numberSymbol))
+            let symbolCardView = SymbolCardView(symbolSet: SymbolSetGame.Symbol(color: card.content.color, symbol: card.content.symbol, typeColor: card.content.typeColor, numberSymbol: card.content.numberSymbol))
             
-            CardView(content: symbolCardView, color: .black, isSelected: card.isSelected, isMatched: card.isMatched).frame(width: SymbolSetGameView.size, height: SymbolSetGameView.size)
+            CardView(content:SymbolCardView(symbolSet: SymbolSetGame.Symbol(color: .green, symbol: .oval, typeColor: .stroke, numberSymbol: .three)), color: .black, isSelected: card.isSelected, isMatched: card.isMatched)
+                .padding(spacing)
                 .onTapGesture {
                     symbolSetGame.choose(card)
                 }
@@ -37,7 +40,7 @@ struct SymbolSetGameView: View {
             Spacer()
             
             Button("Deal 3 More Cards") {
-               
+                symbolSetGame.dealThreeCards()
             }
             
         }.padding()
@@ -54,5 +57,5 @@ struct SymbolSetGameView: View {
 }
 
 #Preview {
-    SymbolSetGameView()
+    SymbolSetGameView(symbolSetGame: SymbolSetGame())
 }

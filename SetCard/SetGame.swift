@@ -9,7 +9,11 @@ import Foundation
 
 
 struct SetGame<CardContent: Equatable> {
-    var cards: [Card]
+    var cards: [Card] {
+        didSet {
+            print("updated \(cards.count)")
+        }
+    }
     
     struct Card: Equatable, Identifiable {
         var content: CardContent
@@ -22,7 +26,7 @@ struct SetGame<CardContent: Equatable> {
         }
         var isSeen: Bool = false
         var isMatched: Bool = false
-        var id: String
+        var id: Int
     }
     
     private let numberOfCards: Int
@@ -31,22 +35,25 @@ struct SetGame<CardContent: Equatable> {
     
     private(set) var score: Int = 0
     
+    private var largestId: Int
     
     init(numberOfCards: Int,  randomCardContentFactory: @escaping () -> CardContent) {
         self.numberOfCards = numberOfCards
         self.randomCardContentFactory = randomCardContentFactory
+        self.largestId = numberOfCards
         
         cards = []
         for index in 0..<numberOfCards {
-            let card = Card(content: randomCardContentFactory(), id: String(index))
+            let card = Card(content: randomCardContentFactory(), id: index)
             cards.append(card)
         }
     }
     
     mutating func createNewGame() {
         cards = []
+        largestId = numberOfCards
         for index in 0..<numberOfCards {
-            let card = Card(content: randomCardContentFactory(), id: String(index))
+            let card = Card(content: randomCardContentFactory(), id: index)
             cards.append(card)
         }
     }
@@ -102,7 +109,7 @@ struct SetGame<CardContent: Equatable> {
                         indexSelectedCards = [index]
                     }
                 } else {
-                    if var indexArrr = indexSelectedCards {
+                    if let indexArrr = indexSelectedCards {
                         var copArr = indexArrr
                         copArr.append(index)
                         indexSelectedCards = copArr
@@ -113,15 +120,15 @@ struct SetGame<CardContent: Equatable> {
                 cards[index].isSelected = true
             }
         }
-        
     }
     
     mutating func dealThreeCards() {
         // TODO: Check if the index is right or not or it maybe duplicate
-        //        for index in 0..<numberOfCards {
-//            let card = Card(content: randomCardContentFactory(), id: String(cards.count + 1 + index))
-//            cards.append(card)
-//        }
+        for index in 0..<3 {
+            let card = Card(content: randomCardContentFactory(), id: largestId + 1 + index)
+            cards.append(card)
+        }
+        largestId += 3
     }
     
 }

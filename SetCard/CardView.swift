@@ -13,14 +13,13 @@ struct CardView<Content: View>: View {
     var isSelected: Bool = false
     var isMatched: Bool = false
     
+    
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
-                .aspectRatio(3/2, contentMode: .fit)
                 .opacity(isSelected || isMatched ? 0 : 1)
             RoundedRectangle(cornerRadius: 10)
                 .strokeBorder(style: StrokeStyle(lineWidth: 1))
-                .aspectRatio(3/2,contentMode: .fit)
                 .foregroundStyle(color)
                 .overlay(contentView)
                 .opacity(isSelected || isMatched ? 1 : 0)
@@ -28,16 +27,16 @@ struct CardView<Content: View>: View {
     }
     
     var contentView: some View {
-        content
+        content.border(.blue, width: 1)
     }
 }
 
 #Preview {
     VStack {
-        CardView(content:SymbolCardView(symbolSet: SymbolSetGame.Symbol(color: .green, symbol: .oval, typeColor: .stroke, numberSymbol: .three)), color: .black, isSelected: true, isMatched: false)
-            .frame(width: 100, height: 100)
-        CardView(content:Rectangle(), color: .blue, isSelected: false, isMatched: false)
-            .frame(width: 100, height: 100)
+        CardView(content:SymbolCardView(symbolSet: SymbolSetGame.Symbol(color: .green, symbol: .oval, typeColor: .stroke, numberSymbol: .three)), color: .black, isSelected: true, isMatched: false).aspectRatio(3/2,contentMode: .fit).frame(width: 70)
+            
+//        CardView(content:Rectangle(), color: .blue, isSelected: false, isMatched: false)
+//            .frame(width: 100, height: 100)
     }
     .padding(50)
 }

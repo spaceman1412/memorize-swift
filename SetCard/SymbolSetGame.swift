@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-struct SymbolSetGame {
+class SymbolSetGame: ObservableObject {
     struct Symbol: Equatable {
         var color: SymbolColor
         var symbol: SymbolShape
@@ -56,13 +56,13 @@ struct SymbolSetGame {
     
     typealias Card = SetGame<Symbol>.Card
     
-    var game: SetGame = createSetGame()
-    
     static func createSetGame() -> SetGame<Symbol> {
-        SetGame(numberOfCards: 12) {
+        SetGame(numberOfCards: 40) {
             Symbol(color: .allCases.randomElement()!, symbol: .allCases.randomElement()!, typeColor: .allCases.randomElement()!, numberSymbol: .allCases.randomElement()!)
         }
     }
+    
+    @Published private var game = createSetGame()
     
     var cards: [Card] {
         game.cards
@@ -72,11 +72,15 @@ struct SymbolSetGame {
         game.score
     }
     
-    mutating func createNewGame() {
+    func createNewGame() {
         game.createNewGame()
     }
     
-    mutating func choose(_ chosenCard: Card) {
+    func dealThreeCards() {
+        game.dealThreeCards()
+    }
+    
+    func choose(_ chosenCard: Card) {
         func compare(lhs: Symbol, rhs: Symbol) -> [String] {
            return []
         }
