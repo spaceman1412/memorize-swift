@@ -34,7 +34,6 @@ class SymbolSetGame: ObservableObject {
             }
         }
         
-        
         enum SymbolShape: CaseIterable {
             case diamond
             case oval
@@ -57,7 +56,7 @@ class SymbolSetGame: ObservableObject {
     typealias Card = SetGame<Symbol>.Card
     
     static func createSetGame() -> SetGame<Symbol> {
-        SetGame(numberOfCards: 40) {
+        SetGame(numberOfCards: 21) {
             Symbol(color: .allCases.randomElement()!, symbol: .allCases.randomElement()!, typeColor: .allCases.randomElement()!, numberSymbol: .allCases.randomElement()!)
         }
     }

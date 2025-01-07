@@ -9,11 +9,7 @@ import Foundation
 
 
 struct SetGame<CardContent: Equatable> {
-    var cards: [Card] {
-        didSet {
-            print("updated \(cards.count)")
-        }
-    }
+    var cards: [Card] 
     
     struct Card: Equatable, Identifiable {
         var content: CardContent
@@ -63,7 +59,7 @@ struct SetGame<CardContent: Equatable> {
             let indexArr = cards.indices.filter { index in
                 cards[index].isSelected
             }
-            
+
             if indexArr.count <= 2 {
                 return indexArr
             }
@@ -91,11 +87,15 @@ struct SetGame<CardContent: Equatable> {
             } else {
                 if let indexArr = indexSelectedCards, indexArr.count == 2 {
                     if compare(cards[indexArr[0]].content, cards[indexArr[1]].content, cards[index].content)  {
+                        //TODO: Why the card here is matched but not disapear right away but only when we select the next card it is disapear
+                        //Matched
                         cards[indexArr[0]].isMatched = true
                         cards[indexArr[1]].isMatched = true
                         cards[index].isMatched = true
                         score += 2
                     } else {
+                        print("unmatched call")
+                        // Unmatched
                         if cards[index].isSeen {
                             score -= 1
                         }
@@ -105,8 +105,6 @@ struct SetGame<CardContent: Equatable> {
                         if cards[indexArr[1]].isSeen {
                             score -= 1
                         }
-                        
-                        indexSelectedCards = [index]
                     }
                 } else {
                     if let indexArrr = indexSelectedCards {

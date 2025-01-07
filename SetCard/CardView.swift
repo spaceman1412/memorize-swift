@@ -13,17 +13,20 @@ struct CardView<Content: View>: View {
     var isSelected: Bool = false
     var isMatched: Bool = false
     
-    
     var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 10)
-                .opacity(isSelected || isMatched ? 0 : 1)
-            RoundedRectangle(cornerRadius: 10)
-                .strokeBorder(style: StrokeStyle(lineWidth: 1))
-                .foregroundStyle(color)
-                .overlay(contentView)
-                .opacity(isSelected || isMatched ? 1 : 0)
-        }.opacity(isMatched ? 0 : 1)
+        if (isSelected || !isMatched) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 10)
+                    .opacity(isSelected ? 0 : 1)
+                RoundedRectangle(cornerRadius: 10)
+                    .strokeBorder(style: StrokeStyle(lineWidth: 1))
+                    .foregroundStyle(color)
+                    .overlay(contentView)
+                    .opacity(isSelected  ? 1 : 0)
+            }
+        } else {
+            Color.clear
+        }
     }
     
     var contentView: some View {
