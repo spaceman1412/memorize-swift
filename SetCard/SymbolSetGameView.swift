@@ -16,6 +16,10 @@ struct SymbolSetGameView: View {
     private let spacing: CGFloat = 4
     @State private var dealt = Set<Card.ID>()
     private let deckSize: CGFloat = 100
+    private let dealtAnimation: Animation = .easeInOut(duration: 1)
+    private let dealtInterval: TimeInterval = 0.1
+
+
     
     private func isDiscard(_ card: Card) -> Bool {
         card.isMatched
@@ -32,21 +36,46 @@ struct SymbolSetGameView: View {
     }
     
     private func deal() {
-        for card in symbolSetGame.cards {
-            dealt.insert(card.id)
+        var delay: TimeInterval = 0
+
+        if dealt.count > 0 {
+            // Add to dealt stack
+            let lastIndex = symbolSetGame.cards.count - 1
+            let threeLastCards = [symbolSetGame.cards[lastIndex - 2], symbolSetGame.cards[lastIndex - 1], symbolSetGame.cards[lastIndex]]
+            
+            for card in threeLastCards {
+                _ = withAnimation(dealtAnimation.delay(delay)) {
+                    dealt.insert(card.id)
+                }
+                delay += dealtInterval
+            }
+            
+            symbolSetGame.dealThreeCards()
+        } else {
+            for card in symbolSetGame.cards {
+                _ = withAnimation(dealtAnimation.delay(delay)) {
+                    dealt.insert(card.id)
+                }
+                
+                delay += dealtInterval
+            }
+            
+            symbolSetGame.dealThreeCards()
         }
     }
+    
+    @Namespace private var dealingNamespace
 
 
     var body: some View {
         title
         
         AspectVGrid(symbolSetGame.cards, aspectRatio: aspectRatio) { card in
-            
             if isDealt(card) {
                 let symbolCardView = SymbolCardView(symbolSet: SymbolSetGame.Symbol(color: card.content.color, symbol: card.content.symbol, typeColor: card.content.typeColor, numberSymbol: card.content.numberSymbol))
                 
                 CardView(content:symbolCardView, color: .black, isSelected: card.isSelected, isMatched: card.isMatched)
+                    .matchedGeometryEffect(id: card.id, in: dealingNamespace)
                     .padding(spacing)
                     .onTapGesture {
                         symbolSetGame.choose(card)
@@ -60,19 +89,23 @@ struct SymbolSetGameView: View {
             }
             
             Spacer()
-
-            CardView(content:Text(""), color: .black, isSelected: false, isMatched: false)
-                .padding(spacing)
-                .frame(width: deckSize, height: deckSize/aspectRatio)
-                .onTapGesture {
-                    deal()
+            
+            ZStack {
+                ForEach(symbolSetGame.cards) { card in
+                    let symbolCardView = SymbolCardView(symbolSet: SymbolSetGame.Symbol(color: card.content.color, symbol: card.content.symbol, typeColor: card.content.typeColor, numberSymbol: card.content.numberSymbol))
+                    
+                    CardView(content:symbolCardView, color: .black, isSelected: card.isSelected, isMatched: card.isMatched)
+                        .matchedGeometryEffect(id: card.id, in: dealingNamespace)
+                        .frame(width: deckSize, height: deckSize / aspectRatio)
+                        .onTapGesture {
+                            deal()
+                        }
                 }
+            }
 
             Spacer()
             
             score
-            
-            
         }.padding()
     }
     
