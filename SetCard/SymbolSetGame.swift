@@ -80,11 +80,6 @@ class SymbolSetGame: ObservableObject {
     }
     
     func choose(_ chosenCard: Card) {
-        func compare(lhs: Symbol, rhs: Symbol) -> [String] {
-           return []
-        }
-        
-        
         game.choose(chosenCard) { (first, second, third)  in
             let result = (first.typeColor == second.typeColor
                           && second.typeColor == third.typeColor) || (first.color == second.color && second.color == third.color) || (first.numberSymbol == second.numberSymbol && second.numberSymbol == third.numberSymbol) || (first.symbol == second.symbol && second.symbol == third.symbol)

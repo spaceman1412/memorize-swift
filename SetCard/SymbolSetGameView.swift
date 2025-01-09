@@ -14,15 +14,22 @@ struct SymbolSetGameView: View {
     private let size: CGFloat = 100
     private let aspectRatio: CGFloat = 3/2
     private let spacing: CGFloat = 4
-    @State private var dealt = Set<Card.ID>()
     private let deckSize: CGFloat = 100
     private let dealtAnimation: Animation = .easeInOut(duration: 1)
     private let dealtInterval: TimeInterval = 0.1
 
-
+    @State private var dealt = Set<Card.ID>()
     
+    @State private var discard = Set<Card.ID>()
+
     private func isDiscard(_ card: Card) -> Bool {
-        card.isMatched
+        discard.contains(card.id)
+    }
+    
+    private var undealtCards: [Card] {
+        symbolSetGame.cards.filter { card in
+            !isDealt(card)
+        }
     }
     
     private func isDealt(_ card: Card) -> Bool {
@@ -31,7 +38,14 @@ struct SymbolSetGameView: View {
     
     private var discardCards: [Card] {
         symbolSetGame.cards.filter { card in
-            !isDiscard(card)
+            isDiscard(card)
+        }
+    }
+    
+    
+    private func discarding(_ card: Card) {
+        _ = withAnimation {
+            discard.insert(card.id)
         }
     }
     
@@ -65,47 +79,83 @@ struct SymbolSetGameView: View {
     }
     
     @Namespace private var dealingNamespace
-
-
-    var body: some View {
-        title
-        
+    
+    var cards: some View {
         AspectVGrid(symbolSetGame.cards, aspectRatio: aspectRatio) { card in
-            if isDealt(card) {
+            if isDealt(card) && !isDiscard(card) {
                 let symbolCardView = SymbolCardView(symbolSet: SymbolSetGame.Symbol(color: card.content.color, symbol: card.content.symbol, typeColor: card.content.typeColor, numberSymbol: card.content.numberSymbol))
                 
                 CardView(content:symbolCardView, color: .black, isSelected: card.isSelected, isMatched: card.isMatched)
                     .matchedGeometryEffect(id: card.id, in: dealingNamespace)
+                    .transition(.asymmetric(insertion: .identity, removal: .identity))
                     .padding(spacing)
                     .onTapGesture {
-                        symbolSetGame.choose(card)
+                        withAnimation {
+                            symbolSetGame.choose(card)
+                        }
                     }
             }
         }
-        
-        HStack {
-            Button("New Game") {
-                symbolSetGame.createNewGame()
+    }
+
+
+    var body: some View {
+        title
+        VStack {
+            
+            cards
+            
+            
+            discardPile
+            
+            HStack {
+                //TODO: The current new game is not working correct
+                Button("New Game") {
+                    symbolSetGame.createNewGame()
+                }
+                
+                Spacer()
+                
+                deck
+
+                Spacer()
+                
+                score
             }
-            
+        }.padding()
+    }
+    
+
+    
+    var deck: some View {
+        ZStack {
+            ForEach(undealtCards) { card in
+                let symbolCardView = SymbolCardView(symbolSet: SymbolSetGame.Symbol(color: card.content.color, symbol: card.content.symbol, typeColor: card.content.typeColor, numberSymbol: card.content.numberSymbol))
+                
+                CardView(content:symbolCardView, color: .black, isSelected: card.isSelected, isMatched: card.isMatched)
+                    .matchedGeometryEffect(id: card.id, in: dealingNamespace)
+                    .transition(.asymmetric(insertion: .identity, removal: .identity))
+            }
+        }
+        .frame(width: deckSize, height: deckSize / aspectRatio)
+        .onTapGesture {
+            deal()
+        }
+    }
+    
+    var discardPile: some View {
+        HStack {
             Spacer()
-            
             ZStack {
-                ForEach(symbolSetGame.cards) { card in
+                ForEach(discardCards.reversed()) { card in
                     let symbolCardView = SymbolCardView(symbolSet: SymbolSetGame.Symbol(color: card.content.color, symbol: card.content.symbol, typeColor: card.content.typeColor, numberSymbol: card.content.numberSymbol))
                     
-                    CardView(content:symbolCardView, color: .black, isSelected: card.isSelected, isMatched: card.isMatched)
+                    CardView(content:symbolCardView, color: .black, isSelected: true, isMatched: true)
                         .matchedGeometryEffect(id: card.id, in: dealingNamespace)
-                        .frame(width: deckSize, height: deckSize / aspectRatio)
-                        .onTapGesture {
-                            deal()
-                        }
+                        .transition(.asymmetric(insertion: .identity, removal: .identity))
                 }
             }
-
-            Spacer()
-            
-            score
+            .frame(width: deckSize / 2, height: deckSize / 2 / aspectRatio)
         }.padding()
     }
     
