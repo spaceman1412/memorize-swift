@@ -30,7 +30,6 @@ struct CardView<Content: View>: View ,Animatable {
     
     var body: some View {
         if (isSelected || !isMatched) {
-            
                 ZStack {
                     RoundedRectangle(cornerRadius: 10)
                         .foregroundStyle(color)

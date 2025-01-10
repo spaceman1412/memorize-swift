@@ -20,10 +20,9 @@ struct SymbolSetGameView: View {
 
     @State private var dealt = Set<Card.ID>()
     
-    @State private var discard = Set<Card.ID>()
 
     private func isDiscard(_ card: Card) -> Bool {
-        discard.contains(card.id)
+        discardCards.contains(card)
     }
     
     private var undealtCards: [Card] {
@@ -38,16 +37,12 @@ struct SymbolSetGameView: View {
     
     private var discardCards: [Card] {
         symbolSetGame.cards.filter { card in
-            isDiscard(card)
+            card.isMatched
         }
     }
     
     
-    private func discarding(_ card: Card) {
-        _ = withAnimation {
-            discard.insert(card.id)
-        }
-    }
+    
     
     private func deal() {
         var delay: TimeInterval = 0
