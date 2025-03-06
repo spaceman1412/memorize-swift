@@ -8,18 +8,7 @@
 import SwiftUI
 
 class EmojiMemoryGame: ObservableObject {
-    private static let emojis = ["🎃", "👻", "🕷️", "💀", "🧙‍♀️", "🦇", "🐶", "🐱", "🐰", "🐼"]
-    
-    private static let themes: [Theme] = [
-        Theme(name: "Rainbow", emojis: ["🌈", "☀️", "🌧", "🌩", "❄️"], numberOfPairs: Int.random(in: 0..<10), color: "Multiple"),
-        Theme(name: "Fire", emojis: ["🔥", "🌋", "☄️", "💥", "🕯"], numberOfPairs: Int.random(in: 0..<10), color: "Red"),
-        Theme(name: "Ocean", emojis: ["🌊", "🐚", "🐠", "🐳", "🦀"], numberOfPairs: Int.random(in: 0..<10), color: "Blue"),
-        Theme(name: "Night Sky", emojis: ["🌟", "🌙", "✨", "🌌", "🪐"], numberOfPairs: Int.random(in: 0..<10), color: "Yellow"),
-        Theme(name: "Nature", emojis: ["🍀", "🌿", "🌳", "🍂", "🌻"], numberOfPairs: Int.random(in: 0..<10), color: "Green"),
-        Theme(name: "Art", emojis: ["🎨", "🖌", "🖼", "🎭", "✏️"], numberOfPairs: Int.random(in: 0..<10), color: "Pink")
-    ]
-    
-    private(set) var themeName: String
+    private(set) var theme: Theme
     
     private static let colorData: [String:ColorGradient] = ["Multiple":.gradient(Gradient(colors: [.red,.green,.blue])), "Red": .color(.red), "Blue": .color(.blue), "Yellow": .color(.yellow), "Green": .color(.green), "Pink": .color(.pink)]
     
@@ -61,28 +50,17 @@ class EmojiMemoryGame: ObservableObject {
         return game.score
     }
     
-    struct Theme {
-        let name: String
-        let emojis: [String]
-        let numberOfPairs: Int
-        let color: String
-    }
-    
-    
-    init() {
-        let randomTheme = EmojiMemoryGame.themes[Int.random(in: EmojiMemoryGame.themes.indices)]
-        themeName = randomTheme.name
-        cardColor = EmojiMemoryGame.colorData[randomTheme.color] ?? .color(.black)
-        game = EmojiMemoryGame.createMemoryGame(withTheme: randomTheme)
+    init(theme: Theme) {
+        self.theme = theme
+        cardColor = EmojiMemoryGame.colorData[theme.color] ?? .color(.black)
+        game = EmojiMemoryGame.createMemoryGame(withTheme: theme)
     }
 
     //MARK: - Intents
     
     func createNewGame() {
-        let randomTheme = EmojiMemoryGame.themes[Int.random(in: EmojiMemoryGame.themes.indices)]
-        themeName = randomTheme.name
-        cardColor = EmojiMemoryGame.colorData[randomTheme.color] ?? .color(.black)
-        game = EmojiMemoryGame.createMemoryGame(withTheme: randomTheme)
+        cardColor = EmojiMemoryGame.colorData[theme.color] ?? .color(.black)
+        game = EmojiMemoryGame.createMemoryGame(withTheme: theme)
     }
     
     func shuffle() {

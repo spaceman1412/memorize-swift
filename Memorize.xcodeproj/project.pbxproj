@@ -13,6 +13,10 @@
 		5C7F2E282C7715A900B1011D /* EmojiMemoryGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7F2E272C7715A900B1011D /* EmojiMemoryGameView.swift */; };
 		5C7F2E2A2C7715AA00B1011D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C7F2E292C7715AA00B1011D /* Assets.xcassets */; };
 		5C7F2E2D2C7715AA00B1011D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C7F2E2C2C7715AA00B1011D /* Preview Assets.xcassets */; };
+		5C8510792D794F5500FC60CE /* ThemeEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8510782D794F5500FC60CE /* ThemeEditor.swift */; };
+		5C85107B2D7951B300FC60CE /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C85107A2D7951B300FC60CE /* Theme.swift */; };
+		5C85107D2D795E4900FC60CE /* ThemeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C85107C2D795E4900FC60CE /* ThemeStore.swift */; };
+		5CD806C72D70561700EDC6BC /* ThemeChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD806C62D70561700EDC6BC /* ThemeChooser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +27,10 @@
 		5C7F2E272C7715A900B1011D /* EmojiMemoryGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiMemoryGameView.swift; sourceTree = "<group>"; };
 		5C7F2E292C7715AA00B1011D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5C7F2E2C2C7715AA00B1011D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		5C8510782D794F5500FC60CE /* ThemeEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeEditor.swift; sourceTree = "<group>"; };
+		5C85107A2D7951B300FC60CE /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		5C85107C2D795E4900FC60CE /* ThemeStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeStore.swift; sourceTree = "<group>"; };
+		5CD806C62D70561700EDC6BC /* ThemeChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeChooser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,9 +64,13 @@
 			isa = PBXGroup;
 			children = (
 				5C7F2E252C7715A900B1011D /* MemorizeApp.swift */,
+				5CD806C62D70561700EDC6BC /* ThemeChooser.swift */,
+				5C8510782D794F5500FC60CE /* ThemeEditor.swift */,
 				5C7F2E272C7715A900B1011D /* EmojiMemoryGameView.swift */,
 				5C5D11C82CE301D800DE74EC /* MemoryGame.swift */,
 				5C5D11CA2CE3037900DE74EC /* EmojiMemoryGame.swift */,
+				5C85107C2D795E4900FC60CE /* ThemeStore.swift */,
+				5C85107A2D7951B300FC60CE /* Theme.swift */,
 				5C7F2E292C7715AA00B1011D /* Assets.xcassets */,
 				5C7F2E2B2C7715AA00B1011D /* Preview Content */,
 			);
@@ -146,7 +158,11 @@
 				5C5D11CB2CE3037900DE74EC /* EmojiMemoryGame.swift in Sources */,
 				5C7F2E282C7715A900B1011D /* EmojiMemoryGameView.swift in Sources */,
 				5C7F2E262C7715A900B1011D /* MemorizeApp.swift in Sources */,
+				5C85107D2D795E4900FC60CE /* ThemeStore.swift in Sources */,
 				5C5D11C92CE301D800DE74EC /* MemoryGame.swift in Sources */,
+				5C8510792D794F5500FC60CE /* ThemeEditor.swift in Sources */,
+				5CD806C72D70561700EDC6BC /* ThemeChooser.swift in Sources */,
+				5C85107B2D7951B300FC60CE /* Theme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

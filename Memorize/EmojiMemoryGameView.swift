@@ -37,7 +37,7 @@ struct EmojiMemoryGameView: View {
     var title: some View {
         VStack {
             Text("Memorize!").font(.largeTitle)
-            Text(viewModel.themeName)
+            Text(viewModel.theme.name)
         }
     }
     
@@ -85,6 +85,3 @@ struct CardView: View {
     
 }
 
-#Preview {
-    EmojiMemoryGameView(viewModel: EmojiMemoryGame())
-}
