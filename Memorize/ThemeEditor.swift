@@ -11,7 +11,6 @@ struct ThemeEditor: View {
     @Binding var theme: Theme
     @State private var emojisText: String = ""
     @State private var bgColor = Color(.black)
-    @State private var numberOfPairs: Int = 0
     
     
     init(withTheme theme: Binding<Theme>) {
@@ -37,10 +36,8 @@ struct ThemeEditor: View {
                     }
             }
             
-            Stepper(value: $numberOfPairs, in: 2...5) {
-                Text("\(numberOfPairs) pairs")
-            } .onChange(of: numberOfPairs) {
-                theme.numberOfPairs = numberOfPairs
+            Stepper(value: $theme.numberOfPairs, in: 2...5) {
+                Text("\(theme.numberOfPairs) pairs")
             }
         }
     }

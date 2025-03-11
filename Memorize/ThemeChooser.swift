@@ -45,7 +45,10 @@ struct ThemeChooser: View {
             }
             .navigationTitle("Themes")
             .navigationDestination(for: Theme.ID.self) { id in
-                
+                if let index = store.themes.firstIndex(where: {$0.id == id }) {
+                    EmojiMemoryGameView(viewModel: EmojiMemoryGame(theme: store.themes[index]))
+                }
+
             }
             .sheet(isPresented: $showEditor) {
                 // So with this navigationDestination even though the condition is not trigger yet it still executed the code which is annoying
@@ -55,7 +58,7 @@ struct ThemeChooser: View {
             }
             .toolbar {
                 Button {
-                    store.insert(Theme(name: "New", emojis: ["🌈", "☀️", "🌧", "🌩", "❄️"], numberOfPairs: 0, color: RGBA(color: .black)))
+                    store.insert(Theme(name: "New", emojis: ["🌈", "☀️", "🌧", "🌩", "❄️"], numberOfPairs: 2, color: RGBA(color: .black)))
                     store.cursorIndex = store.themes.count - 1
                     showEditor = true
                 } label: {
