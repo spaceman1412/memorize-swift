@@ -10,11 +10,6 @@ import SwiftUI
 class EmojiMemoryGame: ObservableObject {
     private(set) var theme: Theme
     
-    private static let colorData: [String:ColorGradient] = ["Multiple":.gradient(Gradient(colors: [.red,.green,.blue])), "Red": .color(.red), "Blue": .color(.blue), "Yellow": .color(.yellow), "Green": .color(.green), "Pink": .color(.pink)]
-    
-    private(set) var cardColor: ColorGradient
-    
-    
     enum ColorGradient: ShapeStyle {
         case color(Color)
         case gradient(Gradient)
@@ -52,14 +47,12 @@ class EmojiMemoryGame: ObservableObject {
     
     init(theme: Theme) {
         self.theme = theme
-        cardColor = EmojiMemoryGame.colorData[theme.color] ?? .color(.black)
         game = EmojiMemoryGame.createMemoryGame(withTheme: theme)
     }
 
     //MARK: - Intents
     
     func createNewGame() {
-        cardColor = EmojiMemoryGame.colorData[theme.color] ?? .color(.black)
         game = EmojiMemoryGame.createMemoryGame(withTheme: theme)
     }
     

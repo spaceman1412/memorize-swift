@@ -17,25 +17,29 @@ struct ThemeChooser: View {
             List {
                 ForEach(store.themes) { theme in
                     NavigationLink(value: theme.id) {
-                        Text(theme.name)
+                        VStack(alignment: .leading) {
+                            Text(theme.name).foregroundStyle(Color(rgba: theme.color))
+                            Text(theme.emojis.joined())
+                            Text("\(theme.numberOfPairs) pairs").font(.system(size: 10)).foregroundStyle(.gray)
+                        }
                     }
                 }
             }
             .navigationTitle("Themes")
-            .navigationDestination(for: Theme.self) { theme in
-                if let index = store.themes.firstIndex(where: {$0.id == theme.id }) {
-                    ThemeEditor(theme: $store.themes[index])
+            .navigationDestination(for: Theme.ID.self) { id in
+                if let index = store.themes.firstIndex(where: {$0.id == id }) {
+                    ThemeEditor(withTheme: $store.themes[index])
                 }
             }
             .navigationDestination(isPresented: $showEditor) {
                 // So with this navigationDestination even though the condition is not trigger yet it still executed the code which is annoying
                 if showEditor == true {
-                    ThemeEditor(theme: $store.themes[store.themes.count - 1])
+                    ThemeEditor(withTheme: $store.themes[store.themes.count - 1])
                 }
             }
             .toolbar {
                 Button {
-                    store.insert(Theme(name: "New", emojis: [], numberOfPairs: 0, color: "black"))
+                    store.insert(Theme(name: "New", emojis: ["🌈", "☀️", "🌧", "🌩", "❄️"], numberOfPairs: 0, color: RGBA(color: .black)))
                     showEditor = true
                 } label: {
                     Image(systemName: "plus")
