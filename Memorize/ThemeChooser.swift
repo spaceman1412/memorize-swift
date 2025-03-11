@@ -23,23 +23,40 @@ struct ThemeChooser: View {
                             Text("\(theme.numberOfPairs) pairs").font(.system(size: 10)).foregroundStyle(.gray)
                         }
                     }
+                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                        Button(role:.destructive) {
+                            if let index = store.themes.firstIndex(where: {$0.id == theme.id }) {
+                                store.delete(at: index)
+                            }
+                        } label: {
+                            Label("Remove", systemImage: "trash.slash")
+                        }
+                        Button {
+                            if let index = store.themes.firstIndex(where: {$0.id == theme.id }) {
+                                store.cursorIndex = index
+                                showEditor = true
+                            }
+                        } label: {
+                            Label("Edit", systemImage: "pencil")
+                        }
+                        .tint(.blue)
+                    }
                 }
             }
             .navigationTitle("Themes")
             .navigationDestination(for: Theme.ID.self) { id in
-                if let index = store.themes.firstIndex(where: {$0.id == id }) {
-                    ThemeEditor(withTheme: $store.themes[index])
-                }
+                
             }
-            .navigationDestination(isPresented: $showEditor) {
+            .sheet(isPresented: $showEditor) {
                 // So with this navigationDestination even though the condition is not trigger yet it still executed the code which is annoying
                 if showEditor == true {
-                    ThemeEditor(withTheme: $store.themes[store.themes.count - 1])
+                    ThemeEditor(withTheme: $store.themes[store.cursorIndex])
                 }
             }
             .toolbar {
                 Button {
                     store.insert(Theme(name: "New", emojis: ["🌈", "☀️", "🌧", "🌩", "❄️"], numberOfPairs: 0, color: RGBA(color: .black)))
+                    store.cursorIndex = store.themes.count - 1
                     showEditor = true
                 } label: {
                     Image(systemName: "plus")

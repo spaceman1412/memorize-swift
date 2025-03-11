@@ -37,7 +37,7 @@ struct ThemeEditor: View {
                     }
             }
             
-            Stepper(value: $numberOfPairs, in: 0...5) {
+            Stepper(value: $numberOfPairs, in: 2...5) {
                 Text("\(numberOfPairs) pairs")
             } .onChange(of: numberOfPairs) {
                 theme.numberOfPairs = numberOfPairs

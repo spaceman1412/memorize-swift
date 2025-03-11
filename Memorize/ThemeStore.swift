@@ -59,8 +59,6 @@ class ThemeStore: ObservableObject, Identifiable {
         return index
     }
 
-    
-
     func insert(_ theme: Theme) {
         themes.append(theme)
     }
@@ -70,8 +68,8 @@ class ThemeStore: ObservableObject, Identifiable {
     }
     
     
-    func delete(){
-        
+    func delete(at index: Int) {
+        themes.remove(at: index)
     }
     
 }
