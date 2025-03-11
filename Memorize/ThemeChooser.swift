@@ -42,6 +42,9 @@ struct ThemeChooser: View {
                         .tint(.blue)
                     }
                 }
+                .onMove { indexSet, newOffSet in
+                    store.themes.move(fromOffsets: indexSet, toOffset: newOffSet)
+                }
             }
             .navigationTitle("Themes")
             .navigationDestination(for: Theme.ID.self) { id in

@@ -63,11 +63,6 @@ class ThemeStore: ObservableObject, Identifiable {
         themes.append(theme)
     }
     
-    func move() {
-        
-    }
-    
-    
     func delete(at index: Int) {
         themes.remove(at: index)
     }
